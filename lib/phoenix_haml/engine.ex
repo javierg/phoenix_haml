@@ -22,6 +22,10 @@ defmodule PhoenixHaml.Engine do
     end
   end
 
+  def compile(file_path, file_path) do
+    read!(file_path)
+  end
+
   defp read!(file_path) do
     file_path
     |> File.read!
