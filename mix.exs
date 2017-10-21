@@ -4,13 +4,14 @@ defmodule PhoenixHaml.Mixfile do
   def project do
     [
       app: :phoenix_haml,
-      version: "0.0.4",
-      elixir: "~> 1.0.0",
+      version: "0.2.3",
+      elixir: "~> 1.0.1 or ~> 1.1",
       deps: deps(),
       package: [
-        contributors: ["Chris McCord"],
+        contributors: ["Chris McCord", "Stephen Pallen"],
+        maintainers: ["Chris McCord", "Stephen Pallen"],
         licenses: ["MIT"],
-        links: [github: "https://github.com/chrismccord/phoenix_haml"]
+        links: %{github: "https://github.com/chrismccord/phoenix_haml"}
       ],
       description: """
       Phoenix Template Engine for Haml
@@ -19,14 +20,14 @@ defmodule PhoenixHaml.Mixfile do
   end
 
   def application do
-    [applications: []]
+    [applications: [:phoenix, :calliope]]
   end
 
   defp deps do
     [
-      {:phoenix, "~> 1.2", [hex: :phoenix]},
-      {:cowboy, "~> 1.0.0", only: [:dev, :test]},
-      {:calliope, "~> 0.2.4"}
+      {:phoenix, "~> 1.2"},
+      {:phoenix_html, "~> 2.3"},
+      {:calliope, "~> 0.4.1"}
     ]
   end
 end

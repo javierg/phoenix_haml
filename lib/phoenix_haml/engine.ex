@@ -3,23 +3,11 @@ defmodule PhoenixHaml.Engine do
 
   @doc """
   Precompiles the String file_path into a function defintion, using Calliope engine
-
-  For example, given "templates/show.html.haml", returns an AST def of the form:
-
-      def render("show.html", assigns \\ [])
-
   """
-  def precompile(file_path, func_name) do
-    content = read!(file_path)
-
-    quote bind_quoted: [func_name: func_name, content: content] do
-      EEx.function_from_string(:defp, :"#{func_name}", content, [:assigns],
-                               engine: Phoenix.Html.Engine)
-
-      def render(unquote(func_name), assigns) do
-        unquote(:"#{func_name}")(assigns)
-      end
-    end
+  def compile(path, _name) do
+    path
+    |> read!
+    |> EEx.compile_string(engine: Phoenix.HTML.Engine, file: path, line: 1)
   end
 
   def compile(file_path, file_path) do
@@ -27,9 +15,14 @@ defmodule PhoenixHaml.Engine do
   end
 
   defp read!(file_path) do
-    file_path
-    |> File.read!
-    |> Calliope.Render.precompile
+    try do
+      file_path |> File.read! |> Calliope.Render.precompile
+    rescue
+      error in [CalliopeException] ->
+        reraise %CalliopeException{error |
+          message: "#{file_path}: " <> error.message}, System.stacktrace
+      error ->
+        reraise error, System.stacktrace
+    end
   end
 end
-
