@@ -5,7 +5,7 @@ defmodule PhoenixHaml.Mixfile do
     [
       app: :phoenix_haml,
       version: "0.2.3",
-      elixir: "~> 1.0.1 or ~> 1.1",
+      elixir: "~> 1.0.1 or ~> 1.1 or 1.4",
       deps: deps(),
       package: [
         contributors: ["Chris McCord", "Stephen Pallen"],
